@@ -1,7 +1,19 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
-const App = () => {
+const Stack = createStackNavigator();
+
+const HomeScreen = () => {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>Tela Principal</Text>
+    </View>
+  );
+};
+
+const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -12,11 +24,12 @@ const App = () => {
     console.log('Email:', email);
     console.log('Senha:', password);
     setMessage('Login realizado');
+    navigation.navigate('Home');
   };
 
   const handleRegister = () => {
     if (password !== confirmPassword) {
-      console.log('Senha esta diferente');
+      console.log('Senha está diferente');
       return;
     }
     console.log('Registrando e-mail:', email);
@@ -68,6 +81,17 @@ const App = () => {
         </Text>
       </TouchableOpacity>
     </View>
+  );
+};
+
+const App = () => {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 
